@@ -4,17 +4,14 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="ep4-leetcode, 个人学习">
+    <meta name="keywords" content="剑指offer09 重建二叉树, 个人学习">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="题目 : 从尾到头打印链表输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。
-示例:
-现有矩阵 matrix 如下：
-输入：head = [1,3,2]
-输出：[2,3,1]
-限制：
-0 &amp;lt;= 链表长度 &amp;lt;= ">
+    <meta name="description" content="题目 : 重建二叉树输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+例如，给出
+前序遍历 preorder = [3,9,20,15,7]
+中序遍历 inorder = [9,">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -22,7 +19,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>ep4-leetcode | 轩的博客</title>
+    <title>剑指offer09 重建二叉树 | 轩的博客</title>
     <link rel="icon" type="image/png" href="/zelda.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -299,13 +296,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        ep4-leetcode
+                        剑指offer09 重建二叉树
                     </div>
                 </div>
             </div>
@@ -448,7 +445,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-07-19
+                    2020-07-30
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -462,14 +459,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    910
+                    1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    4 分
                 </div>
                 
                 
@@ -485,37 +482,49 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="题目-从尾到头打印链表"><a href="#题目-从尾到头打印链表" class="headerlink" title="题目 : 从尾到头打印链表"></a>题目 : <a href="https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/" target="_blank" rel="noopener">从尾到头打印链表</a></h2><p>输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。</p>
-<p>示例:</p>
-<p>现有矩阵 matrix 如下：</p>
-<pre><code>输入：head = [1,3,2]
-输出：[2,3,1]
+                <h2 id="题目-重建二叉树"><a href="#题目-重建二叉树" class="headerlink" title="题目 : 重建二叉树"></a>题目 : <a href="https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/" target="_blank" rel="noopener">重建二叉树</a></h2><p>输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。</p>
+<p>例如，给出</p>
+<pre><code>前序遍历 preorder = [3,9,20,15,7]
+中序遍历 inorder = [9,3,15,20,7]
+
+返回如下的二叉树：
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
 </code></pre><p>限制：</p>
-<p>0 &lt;= 链表长度 &lt;= 10000</p>
+<p>0 &lt;= 节点个数 &lt;= 5000</p>
 <h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h3 id="我提交的代码"><a href="#我提交的代码" class="headerlink" title="我提交的代码"></a>我提交的代码</h3><pre><code>/**
- * Definition for singly-linked list.
- * public class ListNode {
+ * Definition for a binary tree node.
+ * public class TreeNode {
  *     int val;
- *     ListNode next;
- *     ListNode(int x) { val = x; }
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
  * }
  */
 class Solution {
-    public int[] reversePrint(ListNode head) {
+    HashMap&lt;Integer,Integer&gt; map = new HashMap&lt;&gt;();
 
-        int length = 0;
-        for (ListNode pNode = head; pNode != null; pNode = pNode.next){
-            length++;
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int arrLength = preorder.length;
+        for (int i = 0; i &lt; arrLength; i++) {
+            map.put(inorder[i],i);
         }
-        int arr[] = new int[length];
-        int arr_Index = length - 1;
-        for (ListNode pNode = head; pNode != null; pNode = pNode.next){
-            arr[arr_Index] = pNode.val;
-            arr_Index--;
-        }
-        return arr;
+        int preLeft = 0, preRight = arrLength - 1,inLeft = 0,inRight = arrLength - 1;
+        TreeNode root =  buildTreeRecursion(preorder,inorder,preLeft,preRight,inLeft,inRight);
+        return root;
+    }
 
-
+    public TreeNode  buildTreeRecursion(int[] preorder,int[] inorder,int preLeft,int preRight,int inLeft,int inRight) {
+        if(inLeft &gt; inRight) return null;
+        TreeNode rootNode = new TreeNode(preorder[preLeft]);
+        int middleIndex = map.get(rootNode.val);
+        rootNode.left = buildTreeRecursion(preorder,inorder,preLeft + 1,preRight,inLeft,middleIndex-1 );
+        rootNode.right = buildTreeRecursion(preorder,inorder,preLeft + middleIndex+1-inLeft,preRight,middleIndex + 1, inRight);
+        return rootNode;
     }
 }</code></pre><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><ol>
 <li>很简单的解法，类似用栈解决，从头到尾扫描一次，新建数组，把指针置于数组末尾，逐个添加链表的元素到数组中。</li>
@@ -746,9 +755,9 @@ class Solution {
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《ep4-leetcode》
+                    《剑指offer09 重建二叉树》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2020/07/19/ep4-leetcode/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2020/07/30/ep5-leetcode/" property="cc:attributionName"
                rel="cc:attributionURL">
                 Tong
             </a> 采用
@@ -1054,13 +1063,13 @@ class Solution {
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/07/30/ep5-leetcode/">
+                <a href="/2020/07/30/ep6-leetcode/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="剑指offer09 重建二叉树">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="剑指 Offer 10- I. 斐波那契数列">
                         
-                        <span class="card-title">剑指offer09 重建二叉树</span>
+                        <span class="card-title">剑指 Offer 10- I. 斐波那契数列</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1114,26 +1123,30 @@ class Solution {
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/07/11/ep3-leetcode/">
+                <a href="/2020/07/19/ep4-leetcode/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="ep3-leetcode">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="ep4-leetcode">
                         
-                        <span class="card-title">ep3-leetcode</span>
+                        <span class="card-title">ep4-leetcode</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                               摸了好久的鱼，开始逐渐恢复一下，熟悉一下java。  
-题目  二维数组中的查找    
-在一个 n * m 的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组
+                            题目 : 从尾到头打印链表输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。
+示例:
+现有矩阵 matrix 如下：
+输入：head = [1,3,2]
+输出：[2,3,1]
+限制：
+0 &lt;= 链表长度 &lt;= 
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-07-11
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-07-19
                             </span>
                         <span class="publish-author">
                             

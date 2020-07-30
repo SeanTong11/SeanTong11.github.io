@@ -4,6 +4,64 @@
   
     
     <entry>
+      <title>剑指 Offer 10- I. 斐波那契数列</title>
+      <link href="/2020/07/30/ep6-leetcode/"/>
+      <url>/2020/07/30/ep6-leetcode/</url>
+      
+        <content type="html"><![CDATA[<h2 id="题目-重建二叉树"><a href="#题目-重建二叉树" class="headerlink" title="题目 : 重建二叉树"></a>题目 : <a href="https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/" target="_blank" rel="noopener">重建二叉树</a></h2><p>输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。</p><p>例如，给出</p><pre><code>前序遍历 preorder = [3,9,20,15,7]中序遍历 inorder = [9,3,15,20,7]返回如下的二叉树：    3   / \  9  20    /  \   15   7</code></pre><p>限制：</p><p>0 &lt;= 节点个数 &lt;= 5000</p><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h3 id="我提交的代码"><a href="#我提交的代码" class="headerlink" title="我提交的代码"></a>我提交的代码</h3><pre><code>/** * Definition for a binary tree node. * public class TreeNode { *     int val; *     TreeNode left; *     TreeNode right; *     TreeNode(int x) { val = x; } * } */class Solution {    HashMap&lt;Integer,Integer&gt; map = new HashMap&lt;&gt;();    public TreeNode buildTree(int[] preorder, int[] inorder) {        int arrLength = preorder.length;        for (int i = 0; i &lt; arrLength; i++) {            map.put(inorder[i],i);        }        int preLeft = 0, preRight = arrLength - 1,inLeft = 0,inRight = arrLength - 1;        TreeNode root =  buildTreeRecursion(preorder,inorder,preLeft,preRight,inLeft,inRight);        return root;    }    public TreeNode  buildTreeRecursion(int[] preorder,int[] inorder,int preLeft,int preRight,int inLeft,int inRight) {        if(inLeft &gt; inRight) return null;        TreeNode rootNode = new TreeNode(preorder[preLeft]);        int middleIndex = map.get(rootNode.val);        rootNode.left = buildTreeRecursion(preorder,inorder,preLeft + 1,preRight,inLeft,middleIndex-1 );        rootNode.right = buildTreeRecursion(preorder,inorder,preLeft + middleIndex+1-inLeft,preRight,middleIndex + 1, inRight);        return rootNode;    }}</code></pre><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><ol><li>很简单的解法，类似用栈解决，从头到尾扫描一次，新建数组，把指针置于数组末尾，逐个添加链表的元素到数组中。</li><li>时间复杂度为O(n),空间复杂度为O(n)。</li></ol><h3 id="他人解法"><a href="#他人解法" class="headerlink" title="他人解法"></a>他人解法</h3><ol><li>官方题解</li></ol><p>栈的特点是后进先出，即最后压入栈的元素最先弹出。考虑到栈的这一特点，使用栈将链表元素顺序倒置。从链表的头节点开始，依次将每个节点压入栈内，然后依次弹出栈内的元素并存储到数组中。</p><p>创建一个栈，用于存储链表的节点<br>创建一个指针，初始时指向链表的头节点<br>当指针指向的元素非空时，重复下列操作：<br>将指针指向的节点压入栈内<br>将指针移到当前节点的下一个节点<br>获得栈的大小 size，创建一个数组 print，其大小为 size<br>创建下标并初始化 index = 0<br>重复 size 次下列操作：<br>从栈内弹出一个节点，将该节点的值存到 print[index]<br>将 index 的值加 1<br>返回 print  </p><pre><code>Java/** * Definition for singly-linked list. * public class ListNode { *     int val; *     ListNode next; *     ListNode(int x) { val = x; } * } */class Solution {    public int[] reversePrint(ListNode head) {        Stack&lt;ListNode&gt; stack = new Stack&lt;ListNode&gt;();        ListNode temp = head;        while (temp != null) {            stack.push(temp);            temp = temp.next;        }        int size = stack.size();        int[] print = new int[size];        for (int i = 0; i &lt; size; i++) {            print[i] = stack.pop().val;        }        return print;    }}</code></pre><p>复杂性分析</p><p>时间复杂度：O(n)O(n)。正向遍历一遍链表，然后从栈弹出全部节点，等于又反向遍历一遍链表。<br>空间复杂度：O(n)O(n)。额外使用一个栈存储链表中的每个节点。</p><ol start="2"><li>递归解法</li></ol><p>解题思路：<br>利用递归： 先走至链表末端，回溯时依次将节点值加入列表 ，这样就可以实现链表值的倒序输出。</p><p>Python 算法流程：</p><p>递推阶段：<br>每次传入 head.next ，以 head == None（即走过链表尾部节点）为递归终止条件，此时返回空列表 [] 。<br>回溯阶段：<br>利用 Python 语言特性，递归回溯时每次返回 当前 list + 当前节点值 [head.val] ，即可实现节点的倒序输出。<br>Java 算法流程：</p><p>递推阶段：<br>每次传入 head.next ，以 head == null（即走过链表尾部节点）为递归终止条件，此时直接返回。<br>回溯阶段：<br>层层回溯时，将当前节点值加入列表，即tmp.add(head.val)。<br>最终，将列表 tmp 转化为数组 res ，并返回即可。<br>复杂度分析：<br>时间复杂度 O(N)O(N)： 遍历链表，递归 NN 次。<br>空间复杂度 O(N)O(N)： 系统递归需要使用 O(N)O(N) 的栈空间。</p><p>代码：</p><pre><code>python:class Solution:    def reversePrint(self, head: ListNode) -&gt; List[int]:        return self.reversePrint(head.next) + [head.val] if head else []java:class Solution {    ArrayList&lt;Integer&gt; tmp = new ArrayList&lt;Integer&gt;();    public int[] reversePrint(ListNode head) {        recur(head);        int[] res = new int[tmp.size()];        for(int i = 0; i &lt; res.length; i++)            res[i] = tmp.get(i);        return res;    }    void recur(ListNode head) {        if(head == null) return;        recur(head.next);        tmp.add(head.val);    }}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 编程算法 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> leetcode </tag>
+            
+            <tag> 算法 </tag>
+            
+            <tag> 剑指offer </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>剑指offer09 重建二叉树</title>
+      <link href="/2020/07/30/ep5-leetcode/"/>
+      <url>/2020/07/30/ep5-leetcode/</url>
+      
+        <content type="html"><![CDATA[<h2 id="题目-重建二叉树"><a href="#题目-重建二叉树" class="headerlink" title="题目 : 重建二叉树"></a>题目 : <a href="https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/" target="_blank" rel="noopener">重建二叉树</a></h2><p>输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。</p><p>例如，给出</p><pre><code>前序遍历 preorder = [3,9,20,15,7]中序遍历 inorder = [9,3,15,20,7]返回如下的二叉树：    3   / \  9  20    /  \   15   7</code></pre><p>限制：</p><p>0 &lt;= 节点个数 &lt;= 5000</p><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h3 id="我提交的代码"><a href="#我提交的代码" class="headerlink" title="我提交的代码"></a>我提交的代码</h3><pre><code>/** * Definition for a binary tree node. * public class TreeNode { *     int val; *     TreeNode left; *     TreeNode right; *     TreeNode(int x) { val = x; } * } */class Solution {    HashMap&lt;Integer,Integer&gt; map = new HashMap&lt;&gt;();    public TreeNode buildTree(int[] preorder, int[] inorder) {        int arrLength = preorder.length;        for (int i = 0; i &lt; arrLength; i++) {            map.put(inorder[i],i);        }        int preLeft = 0, preRight = arrLength - 1,inLeft = 0,inRight = arrLength - 1;        TreeNode root =  buildTreeRecursion(preorder,inorder,preLeft,preRight,inLeft,inRight);        return root;    }    public TreeNode  buildTreeRecursion(int[] preorder,int[] inorder,int preLeft,int preRight,int inLeft,int inRight) {        if(inLeft &gt; inRight) return null;        TreeNode rootNode = new TreeNode(preorder[preLeft]);        int middleIndex = map.get(rootNode.val);        rootNode.left = buildTreeRecursion(preorder,inorder,preLeft + 1,preRight,inLeft,middleIndex-1 );        rootNode.right = buildTreeRecursion(preorder,inorder,preLeft + middleIndex+1-inLeft,preRight,middleIndex + 1, inRight);        return rootNode;    }}</code></pre><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><ol><li>很简单的解法，类似用栈解决，从头到尾扫描一次，新建数组，把指针置于数组末尾，逐个添加链表的元素到数组中。</li><li>时间复杂度为O(n),空间复杂度为O(n)。</li></ol><h3 id="他人解法"><a href="#他人解法" class="headerlink" title="他人解法"></a>他人解法</h3><ol><li>官方题解</li></ol><p>栈的特点是后进先出，即最后压入栈的元素最先弹出。考虑到栈的这一特点，使用栈将链表元素顺序倒置。从链表的头节点开始，依次将每个节点压入栈内，然后依次弹出栈内的元素并存储到数组中。</p><p>创建一个栈，用于存储链表的节点<br>创建一个指针，初始时指向链表的头节点<br>当指针指向的元素非空时，重复下列操作：<br>将指针指向的节点压入栈内<br>将指针移到当前节点的下一个节点<br>获得栈的大小 size，创建一个数组 print，其大小为 size<br>创建下标并初始化 index = 0<br>重复 size 次下列操作：<br>从栈内弹出一个节点，将该节点的值存到 print[index]<br>将 index 的值加 1<br>返回 print  </p><pre><code>Java/** * Definition for singly-linked list. * public class ListNode { *     int val; *     ListNode next; *     ListNode(int x) { val = x; } * } */class Solution {    public int[] reversePrint(ListNode head) {        Stack&lt;ListNode&gt; stack = new Stack&lt;ListNode&gt;();        ListNode temp = head;        while (temp != null) {            stack.push(temp);            temp = temp.next;        }        int size = stack.size();        int[] print = new int[size];        for (int i = 0; i &lt; size; i++) {            print[i] = stack.pop().val;        }        return print;    }}</code></pre><p>复杂性分析</p><p>时间复杂度：O(n)O(n)。正向遍历一遍链表，然后从栈弹出全部节点，等于又反向遍历一遍链表。<br>空间复杂度：O(n)O(n)。额外使用一个栈存储链表中的每个节点。</p><ol start="2"><li>递归解法</li></ol><p>解题思路：<br>利用递归： 先走至链表末端，回溯时依次将节点值加入列表 ，这样就可以实现链表值的倒序输出。</p><p>Python 算法流程：</p><p>递推阶段：<br>每次传入 head.next ，以 head == None（即走过链表尾部节点）为递归终止条件，此时返回空列表 [] 。<br>回溯阶段：<br>利用 Python 语言特性，递归回溯时每次返回 当前 list + 当前节点值 [head.val] ，即可实现节点的倒序输出。<br>Java 算法流程：</p><p>递推阶段：<br>每次传入 head.next ，以 head == null（即走过链表尾部节点）为递归终止条件，此时直接返回。<br>回溯阶段：<br>层层回溯时，将当前节点值加入列表，即tmp.add(head.val)。<br>最终，将列表 tmp 转化为数组 res ，并返回即可。<br>复杂度分析：<br>时间复杂度 O(N)O(N)： 遍历链表，递归 NN 次。<br>空间复杂度 O(N)O(N)： 系统递归需要使用 O(N)O(N) 的栈空间。</p><p>代码：</p><pre><code>python:class Solution:    def reversePrint(self, head: ListNode) -&gt; List[int]:        return self.reversePrint(head.next) + [head.val] if head else []java:class Solution {    ArrayList&lt;Integer&gt; tmp = new ArrayList&lt;Integer&gt;();    public int[] reversePrint(ListNode head) {        recur(head);        int[] res = new int[tmp.size()];        for(int i = 0; i &lt; res.length; i++)            res[i] = tmp.get(i);        return res;    }    void recur(ListNode head) {        if(head == null) return;        recur(head.next);        tmp.add(head.val);    }}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 编程算法 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> leetcode </tag>
+            
+            <tag> 算法 </tag>
+            
+            <tag> 剑指offer </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>ep4-leetcode</title>
       <link href="/2020/07/19/ep4-leetcode/"/>
       <url>/2020/07/19/ep4-leetcode/</url>
