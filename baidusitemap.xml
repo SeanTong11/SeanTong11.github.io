@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yoursite.com/2020/07/30/ep5-leetcode/</loc>
+    <lastmod>2020-07-31</lastmod>
+  </url>  <url>
     <loc>http://yoursite.com/2020/06/10/leetcode-1-repeat-number/</loc>
     <lastmod>2020-07-30</lastmod>
   </url>  <url>
@@ -11,9 +14,6 @@
     <lastmod>2020-07-30</lastmod>
   </url>  <url>
     <loc>http://yoursite.com/2020/07/19/ep4-leetcode/</loc>
-    <lastmod>2020-07-30</lastmod>
-  </url>  <url>
-    <loc>http://yoursite.com/2020/07/30/ep5-leetcode/</loc>
     <lastmod>2020-07-30</lastmod>
   </url>  <url>
     <loc>http://yoursite.com/2020/07/30/ep6-leetcode/</loc>
